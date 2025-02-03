@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  mysql:
+    build:
+      context: ./docker/mysql
+    container_name: fuelphp_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: fuelphp_db
+      MYSQL_USER: fuelphp_user
+      MYSQL_PASSWORD: secret
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  php:
+    build:
+      context: ./docker/php
+    container_name: fuelphp_app
+    restart: always
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    depends_on:
+      - mysql
+
+  nginx:
+    build:
+      context: ./docker/nginx
+    container_name: fuelphp_nginx
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - php
+
+volumes:
+  mysql_data:
