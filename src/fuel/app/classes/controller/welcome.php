@@ -22,14 +22,14 @@
 class Controller_Welcome extends Controller
 {
 	/**
-	 * The basic welcome message
+	 * Login page.
 	 *
 	 * @access  public
 	 * @return  Response
 	 */
-	public function action_index()
+	public function action_login(): Response
 	{
-		return Response::forge(View::forge('welcome/index'));
+		return Response::forge(View::forge('welcome/login'));
 	}
 
 	/**
@@ -39,19 +39,41 @@ class Controller_Welcome extends Controller
 	 * @access  public
 	 * @return  Response
 	 */
-	public function action_hello()
+	public function action_hello(): Response
 	{
-		return Response::forge(Presenter::forge('welcome/hello'));
+        return Response::forge(Presenter::forge('welcome/hello'));
 	}
 
-	/**
+    /**
 	 * The 404 action for the application.
 	 *
 	 * @access  public
 	 * @return  Response
 	 */
-	public function action_404()
+	public function action_404(): Response
 	{
 		return Response::forge(Presenter::forge('welcome/404'), 404);
 	}
+
+    /**
+     * register page
+     *
+     * @access  public
+     * @return Response
+     */
+    public function action_register(): Response
+    {
+        return Response::forge(View::forge('welcome/register'), 200);
+    }
+
+    /**
+     * show page
+     *
+     * @access public
+     * @return Response
+     */
+    public function action_show(): Response
+    {
+        return Response::forge(View::forge('welcome/show'), 200);
+    }
 }
