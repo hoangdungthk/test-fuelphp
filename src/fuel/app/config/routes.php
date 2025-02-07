@@ -40,5 +40,6 @@ return array(
 
 	'hello(/:name)?' => array('welcome/hello', 'name' => 'hello'),
     'register' => array('welcome/register', 'name' => 'register'),
+    'admin'   => 'admin/main',
     'show' => array('welcome/show', 'name' => 'show'),
 );
