@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:7.3-fpm
 
 # Cài đặt các package cần thiết
 RUN apt-get update && apt-get install -y \

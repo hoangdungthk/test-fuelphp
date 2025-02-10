@@ -17,7 +17,7 @@ class Controller_Admin_Api_User extends Controller_Rest
     protected $format = 'json';
 
     /** @var repository_user Repository xử lý dữ liệu người dùng */
-    private repository_user $repository_user;
+    private $repository_user;
 
     /**
      * Thiết lập trước khi thực hiện các phương thức API.
@@ -167,6 +167,8 @@ class Controller_Admin_Api_User extends Controller_Rest
      */
     private function getValidationErrors(Validation $validation): array
     {
-        return array_map(fn($error) => $error->get_message(), $validation->error());
+        return array_map(function($error) {
+            return $error->get_message();
+        }, $validation->error());
     }
 }
