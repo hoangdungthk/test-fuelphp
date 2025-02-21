@@ -94,6 +94,12 @@
 <div class="register-container">
     <h2>Đăng Ký</h2>
     <form id="registerForm">
+        <p class="error-message" id="errorMessage"></p>
+        <p class="login-link">Đã có tài khoản? <a href="login">Đăng nhập</a></p>
+        <div class="input-group">
+            <label for="username">Tên tài khoản</label>
+            <input type="text" id="username" required>
+        </div>
         <div class="input-group">
             <label for="name">Họ và Tên</label>
             <input type="text" id="name" required>
@@ -111,30 +117,75 @@
             <input type="password" id="confirm_password" required>
         </div>
         <button type="submit" class="register-btn">Đăng ký</button>
-        <p class="error-message" id="errorMessage"></p>
     </form>
-    <p class="login-link">Đã có tài khoản? <a href="login.html">Đăng nhập</a></p>
 </div>
 
 <script>
     $(document).ready(function () {
+        const API_REGISTER = "/api/auth/register";
         $("#registerForm").submit(function (event) {
             event.preventDefault();
 
+            let username = $("#username").val();
             let name = $("#name").val();
             let email = $("#email").val();
             let password = $("#password").val();
             let confirmPassword = $("#confirm_password").val();
             let errorMessage = $("#errorMessage");
 
+            // Reset error message
+            errorMessage.text("");
+
+            // Kiểm tra độ dài username (6-50 ký tự)
+            if (username.length < 6 || username.length > 50) {
+                errorMessage.text("Tên tài khoản phải từ 6 đến 50 ký tự!");
+                return;
+            }
+
+            // Kiểm tra độ dài name (6-50 ký tự)
+            if (name.length < 6 || name.length > 50) {
+                errorMessage.text("Họ và tên phải từ 6 đến 50 ký tự!");
+                return;
+            }
+
+            // Kiểm tra độ dài password (6-50 ký tự)
+            if (password.length < 6 || password.length > 50) {
+                errorMessage.text("Mật khẩu phải từ 6 đến 50 ký tự!");
+                return;
+            }
+
+            // Kiểm tra định dạng email
+            let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                errorMessage.text("Email không hợp lệ!");
+                return;
+            }
+
+            // Kiểm tra mật khẩu có khớp không
             if (password !== confirmPassword) {
                 errorMessage.text("Mật khẩu không khớp!");
                 return;
             }
 
-            // Giả lập đăng ký thành công
-            alert("Đăng ký thành công!");
-            window.location.href = "login.html";
+            $.ajax({
+                url: API_REGISTER,
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    username: username,
+                    name: name,
+                    email: email,
+                    password: password,
+                }),
+                success: function (response) {
+                    alert("Đăng ký thành công!");
+                    window.location.href = "/login";
+                },
+                error: function (xhr) {
+                    console.log(xhr.responseText);
+                    errorMessage.text('Đăng ký thất bại')
+                }
+            })
         });
     });
 </script>

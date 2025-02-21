@@ -71,7 +71,7 @@
         .error-message {
             color: red;
             font-size: 14px;
-            margin-top: 10px;
+            margin: 10px;
         }
     </style>
 </head>
@@ -80,34 +80,50 @@
 <div class="login-container">
     <h2>Đăng Nhập</h2>
     <form id="loginForm">
+        <p class="error-message" id="errorMessage"></p>
         <div class="input-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" required>
+            <label for="email_or_username">Email hoặc tên tài khoản</label>
+            <input type="email_or_username" id="email_or_username" required>
         </div>
         <div class="input-group">
             <label for="password">Mật khẩu</label>
             <input type="password" id="password" required>
         </div>
         <button type="submit" class="login-btn">Đăng nhập</button>
-        <p class="error-message" id="errorMessage"></p>
     </form>
-    <p class="register-link">Chưa có tài khoản? <a href="register.html">Đăng ký</a></p>
+    <p class="register-link">Chưa có tài khoản? <a href="register">Đăng ký</a></p>
 </div>
 
 <script>
     $(document).ready(function () {
+        const API_LOGIN = "/api/auth/login";
         $("#loginForm").submit(function (event) {
             event.preventDefault(); // Ngăn form load lại trang
 
-            let email = $("#email").val();
+            let email_or_username = $("#email_or_username").val();
             let password = $("#password").val();
             let errorMessage = $("#errorMessage");
 
-            if (email === "admin@example.com" && password === "123456") {
-                alert("Đăng nhập thành công!");
-            } else {
-                errorMessage.text("Sai email hoặc mật khẩu!");
-            }
+            // Reset error message
+            errorMessage.text("");
+
+            $.ajax({
+                url: API_LOGIN,
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    email_or_username: email_or_username,
+                    password: password,
+                }),
+                success: function () {
+                    window.location.href = "/show";
+                },
+                error: function (xhr) {
+                    if (xhr.status !== 500) {
+                        errorMessage.text(JSON.parse(xhr.responseText).error);
+                    }
+                }
+            })
         });
     });
 </script>
