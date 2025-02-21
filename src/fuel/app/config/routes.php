@@ -18,7 +18,7 @@ return array(
 	 *
 	 */
 
-	'_root_' => 'welcome/login',
+	'_root_' => 'welcome/hello',
 
 	/**
 	 * -------------------------------------------------------------------------
@@ -39,7 +39,8 @@ return array(
 	 */
 
 	'hello(/:name)?' => array('welcome/hello', 'name' => 'hello'),
-    'register' => array('welcome/register', 'name' => 'register'),
+    'login' => array('auth/login', 'name' => 'login'),
+    'register' => array('auth/register', 'name' => 'register'),
     'admin'   => 'admin/main',
     'show' => array('welcome/show', 'name' => 'show'),
 );

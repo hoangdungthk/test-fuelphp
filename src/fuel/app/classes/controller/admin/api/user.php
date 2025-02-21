@@ -13,10 +13,10 @@ use Fuel\Core\Input;
  */
 class Controller_Admin_Api_User extends Controller_Rest
 {
-    /** @var string Định dạng phản hồi mặc định */
+    /** @var string Định dạng response mặc định */
     protected $format = 'json';
 
-    /** @var repository_user Repository xử lý dữ liệu người dùng */
+    /** @var repository_user Repository xử lý dữ liệu User */
     private $repository_user;
 
     /**

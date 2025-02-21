@@ -2,36 +2,20 @@
 
 class Model_User extends \Orm\Model
 {
-	protected static $_properties = array(
-		"id" => array(
-			"label" => "Id",
-			"data_type" => "int",
-		),
-		"name" => array(
-			"label" => "Name",
-			"data_type" => "varchar",
-		),
-		"email" => array(
-			"label" => "Email",
-			"data_type" => "varchar",
-		),
-		"password" => array(
-			"label" => "Password",
-			"data_type" => "varchar",
-		),
-		"is_admin" => array(
-			"label" => "Is admin",
-			"data_type" => "boolean",
-		),
-		"created_at" => array(
-			"label" => "Created at",
-			"data_type" => "int",
-		),
-		"updated_at" => array(
-			"label" => "Updated at",
-			"data_type" => "int",
-		),
-	);
+    protected static $_properties = array(
+        'id',
+        'username',
+        'name',
+        'email',
+        'password',
+        'is_admin',
+        'group',
+        'last_login',
+        'login_hash',
+        'profile_fields',
+        'created_at',
+        'updated_at',
+    );
 
 	protected static $_observers = array(
 		'Orm\Observer_CreatedAt' => array(
@@ -47,7 +31,6 @@ class Model_User extends \Orm\Model
         'Orm\\Observer_Validation' => [
             'events' => ['before_save']
         ],
-
     );
 
 	protected static $_table_name = 'users';
